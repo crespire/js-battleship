@@ -6,14 +6,21 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
   entry: {
      index: './src/index.js',
    },
+  devtool: 'inline-source-map',
+  devServer: {
+    static: './dist',
+  },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Battleship',
     }),
   ],
    output: {
-     filename: 'main.js',
+     filename: '[name].js',
      path: path.resolve(__dirname, 'dist'),
      clean: true,
    },
+   optimization: {
+    runtimeChunk: 'single',
+  },
  };

@@ -1,10 +1,13 @@
 const ShipBuilder = (origin, length, orientation = 'horizontal') => {
   let hitsRegistered = Array(length).fill(false);
 
-  const getAnchor = () => anchor;
+  const getAnchor = () => origin;
   const getLength = () => length;
   const isSunk = () => {
-    hitsRegistered.every(slot => slot === true);
+    return hitsRegistered.every(slot => slot === true);
+  }
+  const showHits = () => {
+    return hitsRegistered;
   }
 
   const hit = (index) => {
@@ -13,7 +16,7 @@ const ShipBuilder = (origin, length, orientation = 'horizontal') => {
     }
   }
 
-  return { getAnchor, getLength, isSunk, hit };
+  return { getAnchor, getLength, isSunk, showHits, hit };
 };
 
 export { ShipBuilder };

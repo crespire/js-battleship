@@ -6,7 +6,7 @@
 
 const BoardBuilder = (owner) => {
   const boardData = Array.from(Array(10).fill(0), () => new Array(10).fill(0));
-
+  
   const _getData = () => {
     return boardData;
   }
@@ -23,13 +23,41 @@ const BoardBuilder = (owner) => {
     }
   };
 
-  const setCell = (location, value) => {
+  const placeShip = (origin, ship, orientation) => {
+    let shipLength = ship.getLength();
+
+    if (orientation == 'horizontal') {
+      for (let i = 0; i < shipLength; i++) {
+        setCell(origin, () => {
+          ship.setHit(i)
+        }, i, 0);
+      }
+
+    } else if (orientation == 'vertical') {
+
+    }
+  };
+
+  /**
+   * A method to set the value of a given cell
+   * @param {string} location - A1 through J10
+   * @param {*} value - Value for cell
+   * @param {int} colOffset - Number of columns to offset
+   * @param {int} rowOffset - Number of rows to offset
+   */
+  const setCell = (location, value, colOffset = 0, rowOffset = 0) => {
     let [x, y] = getIndex(location);
+    x += rowOffset;
+    y += colOffset;
+
+    if (x > 9 || x < 0) throw new Error(`Offset out of bounds, x is ${x}`);
+    if (y > 9 || y < 0) throw new Error(`Offset out of bounds, y is ${y}`);
+
     boardData[x][y] = value;
   };
 
   const getCell = (location) => {
-    let x, y = getIndex(location);
+    let [x, y] = getIndex(location);
     return boardData[x][y]
   };
 
@@ -68,6 +96,7 @@ const BoardBuilder = (owner) => {
     receiveAttack,
     getCell,
     setCell,
+    placeShip,
     _getData,
   };
 };

@@ -50,6 +50,8 @@ const ShipBuilder = (origin, length, orientation = 'horizontal') => {
     }
     if (hitsRegistered[index] === false) {
       hitsRegistered[index] = true;
+    } else if (hitsRegistered[index] === true) {
+      console.log('Already hit!');
     }
   };
 

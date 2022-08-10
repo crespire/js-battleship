@@ -13,32 +13,37 @@ describe('when a ship is created', () => {
   const ship = ShipBuilder('c2', 2);
   
   test('updates a ship when a hit is registered', () => {
-    ship.hit(1);
-    expect(ship.getHits()).toStrictEqual([false, true]);
+    ship.setHit(1);
+    expect(ship.getAllCells()).toStrictEqual([false, true]);
+  });
+
+  test('correctly returns true when asked about cell index 1', () => {
+    expect(ship.getCell(1)).toStrictEqual(true);
   });
 
   test('correctly reports a ship still in play after a non-fatal hit', () => {
-    expect(ship.isSunk()).toBeFalsy();
-  })
+    expect(ship.isSunk()).toStrictEqual(false);
+  });
 
   test('correctly reports a ship is sunk', () => {
-    ship.hit(0);
-    expect(ship.isSunk()).toBeTruthy();
+    ship.setHit(0);
+    expect(ship.getCell(0)).toStrictEqual(true);
+    expect(ship.isSunk()).toStrictEqual(true);
   });
 })
 
-describe('when dealing with out of bounds values for #hit', () => {
+describe('when dealing with out of bounds values for #setHit', () => {
   const ship = ShipBuilder('c2', 1);
 
   test('handles out of bounds above limit gracefully', () => {
     expect(() => {
-      ship.hit(6);
+      ship.setHit(6);
     }).toThrow('Not in bounds');
   });
 
   test('handles out of bounds below limit gracefully', () => {
     expect(() => {
-      ship.hit(-1);
+      ship.setHit(-1);
     }).toThrow('Not in bounds');
   });
 })

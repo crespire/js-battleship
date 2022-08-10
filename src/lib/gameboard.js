@@ -19,7 +19,7 @@ const BoardBuilder = (owner) => {
     } else if ( data == 1 ) {
       console.log('Already marked miss.');
     } else if ( typeof data == 'function') {
-      console.log('Ship found');
+      // we found a ship, but I have to figure out how to get which part of the ship
     }
   };
 
@@ -29,7 +29,7 @@ const BoardBuilder = (owner) => {
     if (orientation == 'horizontal') {
       for (let i = 0; i < shipLength; i++) {
         setCell(origin, () => {
-          ship.setHit(i)
+          ship.setHit
         }, i, 0);
       }
 
@@ -38,12 +38,17 @@ const BoardBuilder = (owner) => {
     }
   };
 
+  const clearPath = (origin, length) => {
+    // check if the area where we need to place the ship is clear
+  }
+
   /**
    * A method to set the value of a given cell
    * @param {string} location - A1 through J10
    * @param {*} value - Value for cell
    * @param {int} colOffset - Number of columns to offset
    * @param {int} rowOffset - Number of rows to offset
+   * @access public
    */
   const setCell = (location, value, colOffset = 0, rowOffset = 0) => {
     let [x, y] = getIndex(location);
@@ -56,16 +61,24 @@ const BoardBuilder = (owner) => {
     boardData[x][y] = value;
   };
 
+  /**
+   * A method to retrieve cell contents
+   * @param {string} location 
+   * @returns {int || function}
+   * @access public
+   */
   const getCell = (location) => {
     let [x, y] = getIndex(location);
     return boardData[x][y]
   };
 
+  /**
+   * A method to convert location to array indices
+   * @param {string} location 
+   * @returns {array} [row_index, column_index]
+   * @access private
+   */
   const getIndex = (location) => {
-    // a1 = [0, 0] row, col
-    // h5 = [4, 7] row, col
-    // c9 = [8, 2]
-    // i10 = [9, 8]
     const colKey = {
       'a': 0,
       'b': 1,

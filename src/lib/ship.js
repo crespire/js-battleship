@@ -44,7 +44,7 @@ const ShipBuilder = (origin, length, orientation = 'horizontal') => {
    * Updates the given spot to a hit
    * @param {int} index 
    */
-  const setHit = (index) => {
+  const setHit = (index = 0) => {
     if (index > (length - 1) || index < 0 ) {
       throw new Error('Not in bounds');
     }

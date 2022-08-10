@@ -1,12 +1,15 @@
 /**
  * Represents a game board for Battleship.
- * @param {number} length - Length of the play area
- * @param {*} owner - Player object that owns game board
+ * @param {Player} owner - Player object that owns game board
  * @returns {Board}
  */
 
-const BoardBuilder = (length, owner) => {
-  let boardData = Array(length).fill(Array(length).fill(0));
+const BoardBuilder = (owner) => {
+  const boardData = Array.from(Array(10).fill(0), () => new Array(10).fill(0));
+
+  const _getData = () => {
+    return boardData;
+  }
 
   const receiveAttack = (location) => {
     let data = getCell(location);
@@ -21,7 +24,7 @@ const BoardBuilder = (length, owner) => {
   };
 
   const setCell = (location, value) => {
-    let x, y = getIndex(location);
+    let [x, y] = getIndex(location);
     boardData[x][y] = value;
   };
 
@@ -51,12 +54,10 @@ const BoardBuilder = (length, owner) => {
     const regexDigit = /\b([1-9]|10)\b/; // matches '1' through '10' only
     const regexLetter = /\b[A-Ja-j]\b/; // matches single character in range only
 
-    // check col and row inputs are valid
-    let col, row = [...location];
-    if (!col.match(regexDigit)) throw new Error('Invalid column input.');
-    if (!row.match(regexLetter)) throw new Error('Invalid row input.');
+    let [col, row] = [...location];
+    if (!col?.match(regexLetter)) throw new Error('Invalid column input.');
+    if (!row?.match(regexDigit)) throw new Error('Invalid row input.');
     
-    // the proceed with map    
     let colIndex = colKey[col];
     let rowIndex = Number(row) - 1;
 
@@ -67,6 +68,7 @@ const BoardBuilder = (length, owner) => {
     receiveAttack,
     getCell,
     setCell,
+    _getData,
   };
 };
 

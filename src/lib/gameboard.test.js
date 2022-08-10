@@ -4,12 +4,11 @@ import { jest } from '@jest/globals'
 describe('when creating a gameboard', () => {
   const mockPlayer = jest.fn();
 
-  test('it returns the right internal data representation', () => {
+  test('it returns a board with the appropriate methods', () => {
     let board = BoardBuilder(mockPlayer);
-    let data = board._getData();
-    expect(data.length).toEqual(10);
-    expect(data[9].length).toEqual(10);
-    expect(data.flat().length).toEqual(100);
+    expect(board).toHaveProperty('getCell');
+    expect(board).toHaveProperty('setCell');
+    expect(board).toHaveProperty('receiveAttack');
   });
 });
 
@@ -18,31 +17,43 @@ describe('after creating a board', () => {
   const board = BoardBuilder(mockPlayer);
 
   describe('when sending #setCell', () => {
-    // index of row * 10 + index of column = flat index
-
     test('it correctly sets a1 to the given value', () => {
       board.setCell('a1', 'x');
-      let data = board._getData();
-      expect(data.flat()[0]).toBe('x');
-      expect(data.flat().filter(value => value != 0).length).toEqual(1);
-      expect(data.flat().filter(value => value == 0).length).toEqual(99);
+      expect(board.getCell('a1')).toBe('x');
+      expect(board.getCell('a2')).toBe(0);
+      expect(board.getCell('b1')).toBe(0);
     });
 
     test('it correctly sets h5 to the given value', () => {
       board.setCell('h5', 'y');
-      let data = board._getData();
-      expect(data.flat()[47]).toBe('y');
-      expect(data.flat().filter(value => value != 0).length).toEqual(2);
-      expect(data.flat().filter(value => value == 0).length).toEqual(98);
+      expect(board.getCell('h5')).toBe('y');
     });
 
-    test('it correctly sets c9 to the given value', () => {
-      board.setCell('c9', 'z');
-      let data = board._getData();
-      console.log(data.flat());
-      expect(data.flat()[82]).toBe('z');
-      expect(data.flat().filter(value => value != 0).length).toEqual(3);
-      expect(data.flat().filter(value => value == 0).length).toEqual(97);
-    })
+    describe('when #setCell is provided with offset values', () => {
+      test('it correctly sets b1 with offset from a1 given', () => {
+        board.setCell('a1', 'z', 1);
+        expect(board.getCell('b1')).toBe('z');
+      });
+
+      test('it correctly sets a2 with offset from a1 given', () => {
+        board.setCell('a1', 'v', 0, 1);
+        expect(board.getCell('a2')).toBe('v');
+      });
+
+      test('it correctly sets b2 with offset from a1 given', () => {
+        board.setCell('a1', 'g', 1, 1);
+        expect(board.getCell('b2')).toBe('g');
+      });
+
+      test('it correctly throws error with out of bound offsets', () => {
+        expect(() => {
+          board.setCell('j10', 'q', 1, 0);
+        }).toThrow('Offset out of bounds');
+
+        expect(() => {
+          board.setCell('a1', 'q', 1, 99);
+        }).toThrow('Offset out of bounds');
+      });
+    });
   });
 })

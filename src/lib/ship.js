@@ -1,5 +1,3 @@
-import { result } from "lodash";
-
 /**
  * Represents a ship in the game Battleship.
  * @param {string} origin - The origin point of a ship.

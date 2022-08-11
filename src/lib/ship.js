@@ -32,14 +32,12 @@ const ShipBuilder = (origin, length, horizontal = true) => {
       currentCell = nextCell.join('');
     }
 
+    console.log('Ship initialized:', result);
+
     return result;
   }
 
   let shipInfo = buildCells();
-
-  const _getData = () => {
-    return shipInfo;
-  }
 
   /**
    * Calculates if the ship is sunk
@@ -52,13 +50,17 @@ const ShipBuilder = (origin, length, horizontal = true) => {
 
   /**
    * Updates the given spot to a hit.
-   * @param {string} coord - Coordinate string (Gameboard does validation)
+   * @param {string} coord - Coordinate string (This design assumes some other object is doing input validation)
    */
   const receiveHit = (coord) => {
     shipInfo[coord] = true;
-    console.log(`Received hit at ${coord}, ship status updated: ${shipInfo}`);
+    console.log(`Received hit at ${coord}, ship status updated:`, shipInfo);
   }
 
+  /**
+   * Returns an array of hits to the ship.
+   * @returns {array}
+   */
   const showHits = () => {
     return Object.values(shipInfo);
   }
@@ -69,7 +71,6 @@ const ShipBuilder = (origin, length, horizontal = true) => {
     isSunk,
     receiveHit,
     showHits,
-    _getData,
   };
 };
 

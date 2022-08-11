@@ -9,7 +9,7 @@ const ShipBuilder = (origin, length, horizontal = true) => {
   const getAnchor = () => origin;
   const getLength = () => length;
 
-  const buildCells = () => {
+  const buildData = () => {
     let result = {};
 
     const nextEntry = (x) => {
@@ -32,12 +32,10 @@ const ShipBuilder = (origin, length, horizontal = true) => {
       currentCell = nextCell.join('');
     }
 
-    console.log('Ship initialized:', result);
-
     return result;
   }
 
-  let shipInfo = buildCells();
+  let shipInfo = buildData();
 
   /**
    * Calculates if the ship is sunk

@@ -2,34 +2,24 @@
  * Represents a ship in the game Battleship.
  * @param {string} origin - The origin point of a ship.
  * @param {*} length - How many cells long a ship is.
- * @param {*} orientation - Orientation away from the origin
+ * @param {bool} horizontal - Horizontal? Defaults to true.
  * @returns {Ship}
  */
-const ShipBuilder = (origin, length, orientation = 'horizontal') => {
-  let shipInfo = buildCells();
-
+const ShipBuilder = (origin, length, horizontal = true) => {
   const getAnchor = () => origin;
   const getLength = () => length;
 
   const buildCells = () => {
     let result = {};
-    const colMap = {
-      'a': 0,
-      'b': 1,
-      'c': 2,
-      'd': 3,
-      'e': 4,
-      'f': 5,
-      'g': 6,
-      'h': 7,
-      'i': 8,
-      'j': 9,
-    }
 
+    const nextEntry = (x) => {
+      let nextCode = x.charCodeAt(0) + 1;
+      return String.fromCharCode(nextCode);
+    }
     
     // If orientation is horizontal, we're modifying index 0 of ['a', '1']
-    let changeIndex = orientation == 'horizontal' ? 0 : 1;
-    let stableIndex = changeIndex == 0 ? 1 : 0;
+    let changeIndex = horizontal ? 0 : 1;
+    let stableIndex = horizontal ? 1 : 0;
 
     let nextCell;
     let currentCell = origin;
@@ -45,9 +35,10 @@ const ShipBuilder = (origin, length, orientation = 'horizontal') => {
     return result;
   }
 
-  const nextEntry = (x) => {
-    let nextCode = x.charCodeAt(0) + 1;
-    return String.fromCharCode(nextCode);
+  let shipInfo = buildCells();
+
+  const _getData = () => {
+    return shipInfo;
   }
 
   /**
@@ -60,42 +51,25 @@ const ShipBuilder = (origin, length, orientation = 'horizontal') => {
   };
 
   /**
-   * Returns all ship spots hit status
-   * @returns {array}
-   */
-  const getAllCells = () => {
-    return shipInfo;
-  };
-
-  /**
-   * Queries a particular spot for hit
-   * @param {int} index 
-   * @returns {bool}
-   */
-  const getCell = (index) => {
-    if (index > (length - 1) || index < 0 ) {
-      throw new Error('Not in bounds');
-    }
-
-    let values = Object.values(shipInfo);
-    return values[index];
-  };
-
-  /**
-   * Updates the given spot to a hit
-   * @param {int} index 
+   * Updates the given spot to a hit.
+   * @param {string} coord - Coordinate string (Gameboard does validation)
    */
   const receiveHit = (coord) => {
-    console.log(`receiveHit: ${coord}`);
+    shipInfo[coord] = true;
+    console.log(`Received hit at ${coord}, ship status updated: ${shipInfo}`);
+  }
+
+  const showHits = () => {
+    return Object.values(shipInfo);
   }
 
   return { 
     getAnchor,
     getLength,
     isSunk,
-    getAllCells,
-    getCell,
     receiveHit,
+    showHits,
+    _getData,
   };
 };
 

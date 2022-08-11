@@ -1,4 +1,5 @@
 import { BoardBuilder } from './gameboard';
+import { ShipBuilder } from './ship';
 import { jest } from '@jest/globals'
 
 describe('when creating a gameboard', () => {
@@ -56,4 +57,24 @@ describe('after creating a board', () => {
       });
     });
   });
-})
+
+  describe('when sending #placeShip', () => {
+    const board = BoardBuilder(mockPlayer);
+
+    test('it correctly places a ship with length 1', () => {
+      board.placeShip('a1', ShipBuilder('a1', 1), 'horizontal');
+      let data = board._getData();
+      console.log(data);
+      let callback = board.getCell('a1');
+      console.log(callback('a1'));
+      expect(board.getCell('a1')).toBeInstanceOf(Function);
+    });
+
+    test.skip('it correctly places a ship with length 2', () => {
+      board.placeShip('a1', ShipBuilder('a1', 2), 'horizontal');
+      let data = board._getData();
+      console.log(data);
+      expect(board.getCell('a1')).toBeInstanceOf(Function);
+    });
+  });
+});

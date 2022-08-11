@@ -28,9 +28,7 @@ const BoardBuilder = (owner) => {
 
     if (orientation == 'horizontal') {
       for (let i = 0; i < shipLength; i++) {
-        setCell(origin, () => {
-          ship.setHit
-        }, i, 0);
+        setCell(origin, ship.receiveHit, i, 0);
       }
 
     } else if (orientation == 'vertical') {

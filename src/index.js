@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import { ShipBuilder } from './lib/ship.js';
-import { BoardBuilder } from './lib/gameboard.js';
+import { Battleship } from './lib/battleship.js';
 
 console.log('Loaded!');

@@ -16,8 +16,11 @@ const ShipBuilder = (origin, length = 1, horizontal = true) => {
    * @access private
    */
   const buildData = () => {
+    if (length < 1) throw new Error('Ship must be at least 1 cell long');
+
     let result = {};
 
+    // Helper to get next coord entry
     const nextEntry = (x) => {
       return String.fromCharCode(x.charCodeAt(0) + 1);
     }

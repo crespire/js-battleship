@@ -110,14 +110,42 @@ describe('after creating a board', () => {
     });
   });
 
-  describe.skip('when sending #allSunk', () => {
+  describe('when sending #allSunk', () => {
+    const board = BoardBuilder(mockPlayer);
+
     afterEach(() => {
       board.clearBoard();
     })
 
     test('when provided only 1 ship that is sunk', () => {
       let ship_1 = ShipBuilder('c3', 4, true);
-      board.placeShip('c3', ship_1);
+      board.placeShip(ship_1);
+      board.receiveAttack('c3');
+      board.receiveAttack('d3');
+      board.receiveAttack('e3');
+      board.receiveAttack('f3');
+      expect(ship_1.isSunk()).toBe(true);
+      expect(board.allSunk()).toBe(true);
+      expect(board.getHits()).toBe(4);
+    });
+
+    test('when provided a board with two ships', () => {
+      let ship_1 = ShipBuilder('a1', 1, true);
+      let ship_2 = ShipBuilder('a3', 2, false);
+      board.placeShip(ship_1);
+      board.placeShip(ship_2);
+      board.receiveAttack('a3');
+      expect(board.allSunk()).toBe(false);
+      board.receiveAttack('a4');
+      expect(ship_2.isSunk()).toBe(true);
+      expect(board.allSunk()).toBe(false);
+      expect(board.getHits()).toBe(2);
+      board.receiveAttack('j10');
+      expect(board.allSunk()).toBe(false);
+      board.receiveAttack('a1');
+      expect(board.allSunk()).toBe(true);
+      expect(board.getHits()).toBe(3);
+      expect(board.getMisses()).toBe(1);
     })
   });
 });

@@ -1,5 +1,5 @@
-import { BoardBuilder } from './gameboard';
-import { ShipBuilder } from './ship';
+import { BoardBuilder } from './gameboard.js';
+import { ShipBuilder } from './ship.js';
 import { jest } from '@jest/globals'
 
 describe('when creating a gameboard', () => {

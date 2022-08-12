@@ -55,6 +55,13 @@ const BoardBuilder = (owner) => {
     return true;
   };
   
+  /**
+   * A method to check if the coordinate is in bounds.
+   * @param {string} coord - Coordinate in format 'a1'
+   * @throws Will throw error if coordinate is not in bounds.
+   * @returns {true}
+   * @access public
+   */
   const validCoordinate = (coord) => {
     let [col, row] = [...coord];
     const colValidation = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];

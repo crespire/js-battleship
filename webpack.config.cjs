@@ -13,6 +13,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Battleship',
+      template: 'src/index.html'
     }),
   ],
    output: {
@@ -22,5 +23,17 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
    },
    optimization: {
     runtimeChunk: 'single',
+  },
+  module: { // babel loader
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader'],
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['*', '.js', '.jsx'],
   },
  };

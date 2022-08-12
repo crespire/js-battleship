@@ -3,7 +3,17 @@ import { ShipBuilder } from './ship';
 
 describe('when creating a ship', () => {
   describe('when creating a horizontally oriented ship', () => {
-    test('a ship is created correctly', () => {
+    test('a ship of length 1 is created correctly', () => {
+      const ship = ShipBuilder('c2');
+      console.log(ship);
+      expect(ship.getAnchor()).toBe('c2');
+      expect(ship.getLength()).toBe(1);
+      expect(ship.getCells()).toEqual(['c2']);
+      expect(ship.isHorizontal()).toEqual(true);
+      expect(ship.getHits().every((slot) => { return slot === false })).toBeTruthy();
+    });
+
+    test('a ship of length 3 is created correctly', () => {
       const ship = ShipBuilder('c2', 3);
       expect(ship.getAnchor()).toBe('c2');
       expect(ship.getLength()).toBe(3);
@@ -14,7 +24,15 @@ describe('when creating a ship', () => {
   });
 
   describe('when creating a vertically oriented ship', () => {
-    test('a ship is created correctly', () => {
+    test('s ship of length 1 is created correctly', () => {
+      const ship = ShipBuilder('c2', 1, false);
+      expect(ship.getAnchor()).toBe('c2');
+      expect(ship.getLength()).toBe(1);
+      expect(ship.getCells()).toEqual(['c2']);
+      expect(ship.isHorizontal()).toEqual(false);
+      expect(ship.getHits().every((slot) => { return slot === false })).toBeTruthy();
+    })
+    test('a ship of length 5 is created correctly', () => {
       const ship = ShipBuilder('c2', 5, false);
       expect(ship.getAnchor()).toBe('c2');
       expect(ship.getLength()).toBe(5);

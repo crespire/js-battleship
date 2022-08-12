@@ -6,6 +6,7 @@
  * @returns {Ship}
  */
 const ShipBuilder = (origin, length = 1, horizontal = true) => {
+
   /**
    * Initializes the internal data representation of the ship
    * { coordinate: hit boolean, etc }
@@ -81,7 +82,7 @@ const ShipBuilder = (origin, length = 1, horizontal = true) => {
    * Updates the given spot to a hit.
    * @param {string} coord - Coordinate string (This design assumes some other object is doing input validation)
    */
-    const receiveHit = (coord) => {
+  const receiveHit = (coord) => {
     shipInfo[coord] = true;
     console.log(`Received hit at ${coord}, ship status updated:`, shipInfo);
   }

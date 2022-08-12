@@ -59,31 +59,65 @@ describe('after creating a board', () => {
   });
 
   describe('when sending #placeShip', () => {
-    const board = BoardBuilder(mockPlayer);
     afterEach(() => {
       board.clearBoard();
     });    
 
     test('it correctly places a ship with horizontal length 2', () => {
       let ship = ShipBuilder('a1', 2, true);
-      board.placeShip('a1', ship);
-      board._logState();
+      board.placeShip(ship);
       expect(board.getCell('a1')).toBeInstanceOf(Function);
     });
 
     test('it correctly places a ship with vertical length 2', () => {
       let ship = ShipBuilder('a1', 2, false);
-      board.placeShip('a1', ship);
-      board._logState();
+      board.placeShip(ship);
       expect(board.getCell('a2')).toBeInstanceOf(Function);
     });
 
     test('it correctly throws an error when a ship is out of bounds', () => {
       let ship = ShipBuilder('j10', 2, true);
       expect(() => {
-        board.placeShip('j10', ship);
+        board.placeShip(ship);
       }).toThrow('not in bounds');
-      board._logState();
+    });
+
+    test('it correctly throws error when there is an overlap', () => {
+      let ship_1 = ShipBuilder('a1', 3, true);
+      let ship_2 = ShipBuilder('c1', 1, true);
+      board.placeShip(ship_1);
+      expect(() => {
+        board.placeShip(ship_2);
+      }).toThrow('Already occupied');
+    })
+  });
+
+  describe('when sending #receiveAttack', () => {
+    const board = BoardBuilder(mockPlayer);
+
+    test('it correctly updates the board representation on hit', () => {
+      let ship_1 = ShipBuilder('f3', 4, true);
+      board.placeShip(ship_1);
+      board.receiveAttack('i3');
+      expect(board.getCell('i3')).toBe('x');
+      expect(board.getHits()).toBe(1);
+    });
+
+    test('it correctly updates the board representation on a miss', () => {
+      board.receiveAttack('a1');
+      expect(board.getCell('a1')).toBe(1);
+      expect(board.getMisses()).toBe(1)
+    });
+  });
+
+  describe.skip('when sending #allSunk', () => {
+    afterEach(() => {
+      board.clearBoard();
+    })
+
+    test('when provided only 1 ship that is sunk', () => {
+      let ship_1 = ShipBuilder('c3', 4, true);
+      board.placeShip('c3', ship_1);
     })
   });
 });

@@ -5,7 +5,7 @@
  * @param {bool} horizontal - Horizontal? Defaults to true.
  * @returns {Ship}
  */
-const ShipBuilder = (origin, length = 1, horizontal = true) => {
+const ShipBuilder = (origin, length = 2, horizontal = true) => {
 
   /**
    * Initializes the internal data representation of the ship
@@ -17,7 +17,7 @@ const ShipBuilder = (origin, length = 1, horizontal = true) => {
    * @access private
    */
   const buildData = () => {
-    if (length < 1) throw new Error('Ship must be at least 1 cell long');
+    if (length < 2) throw new Error('Ship must be at least 2 cell long');
 
     let result = {};
 

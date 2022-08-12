@@ -5,15 +5,21 @@ describe('when creating a ship', () => {
   test('correctly throws an error when provided a negative length', () => {
     expect(() => {
       ShipBuilder('c1', -1)
-    }).toThrow('must be at least 1 cell long');
+    }).toThrow('must be at least 2 cell long');
+  });
+
+  test('correctly throws an error when provided a single cell length', () => {
+    expect(() => {
+      ShipBuilder('c1', 1)
+    }).toThrow('must be at least 2 cell long');
   });
 
   describe('when creating a horizontally oriented ship', () => {
-    test('a ship of length 1 is created correctly', () => {
+    test('a ship of length 2 is created correctly', () => {
       const ship = ShipBuilder('c2');
       expect(ship.getAnchor()).toBe('c2');
-      expect(ship.getLength()).toBe(1);
-      expect(ship.getCells()).toEqual(['c2']);
+      expect(ship.getLength()).toBe(2);
+      expect(ship.getCells()).toEqual(['c2', 'd2']);
       expect(ship.isHorizontal()).toEqual(true);
       expect(ship.getHits().every((slot) => { return slot === false })).toBeTruthy();
     });
@@ -29,11 +35,11 @@ describe('when creating a ship', () => {
   });
 
   describe('when creating a vertically oriented ship', () => {
-    test('s ship of length 1 is created correctly', () => {
-      const ship = ShipBuilder('c2', 1, false);
+    test('s ship of length 2 is created correctly', () => {
+      const ship = ShipBuilder('c2', 2, false);
       expect(ship.getAnchor()).toBe('c2');
-      expect(ship.getLength()).toBe(1);
-      expect(ship.getCells()).toEqual(['c2']);
+      expect(ship.getLength()).toBe(2);
+      expect(ship.getCells()).toEqual(['c2', 'c3']);
       expect(ship.isHorizontal()).toEqual(false);
       expect(ship.getHits().every((slot) => { return slot === false })).toBeTruthy();
     })

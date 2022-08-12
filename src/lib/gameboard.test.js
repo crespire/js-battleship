@@ -60,21 +60,30 @@ describe('after creating a board', () => {
 
   describe('when sending #placeShip', () => {
     const board = BoardBuilder(mockPlayer);
+    afterEach(() => {
+      board.clearBoard();
+    });    
 
-    test('it correctly places a ship with length 1', () => {
-      board.placeShip('a1', ShipBuilder('a1', 1), 'horizontal');
-      let data = board._getData();
-      console.log(data);
-      let callback = board.getCell('a1');
-      console.log(callback('a1'));
+    test('it correctly places a ship with horizontal length 2', () => {
+      let ship = ShipBuilder('a1', 2, true);
+      board.placeShip('a1', ship);
+      board._logState();
       expect(board.getCell('a1')).toBeInstanceOf(Function);
     });
 
-    test.skip('it correctly places a ship with length 2', () => {
-      board.placeShip('a1', ShipBuilder('a1', 2), 'horizontal');
-      let data = board._getData();
-      console.log(data);
-      expect(board.getCell('a1')).toBeInstanceOf(Function);
+    test('it correctly places a ship with vertical length 2', () => {
+      let ship = ShipBuilder('a1', 2, false);
+      board.placeShip('a1', ship);
+      board._logState();
+      expect(board.getCell('a2')).toBeInstanceOf(Function);
     });
+
+    test('it correctly throws an error when a ship is out of bounds', () => {
+      let ship = ShipBuilder('j10', 2, true);
+      expect(() => {
+        board.placeShip('j10', ship);
+      }).toThrow('not in bounds');
+      board._logState();
+    })
   });
 });

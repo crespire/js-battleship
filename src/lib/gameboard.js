@@ -5,13 +5,25 @@
  */
 
 const BoardBuilder = (owner) => {
-  const boardData = Array.from(Array(10).fill(0), () => new Array(10).fill(0));
+  let boardData = Array.from(Array(10).fill(0), () => new Array(10).fill(0));
   
   const _getData = () => {
     return boardData;
   }
 
+  const _logState = () => {
+    console.log(boardData);
+  }
+
+  const clearBoard = () => {
+    console.log('Re-initializing board.');
+    boardData = Array.from(Array(10).fill(0), () => new Array(10).fill(0));
+  }
+
   const receiveAttack = (location) => {
+    let inBounds = validCoordinate(location);
+    if (!inBounds) throw new Error('Coordinates out of bounds.');
+
     let data = getCell(location);
     if ( data == 0 ) {
       console.log('Miss!');
@@ -23,23 +35,35 @@ const BoardBuilder = (owner) => {
     }
   };
 
-  const placeShip = (origin, ship, orientation) => {
+  const placeShip = (origin, ship) => {
+    let horizontal = ship.isHorizontal();
     let shipLength = ship.getLength();
+    let cells = ship.getCells();
+    let validPlacement = cells.every((coordinate) => validCoordinate(coordinate));
+    if (!validPlacement) return false;
 
-    if (orientation == 'horizontal') {
+    if (horizontal) {
       for (let i = 0; i < shipLength; i++) {
         setCell(origin, ship.receiveHit, i, 0);
       }
-
-    } else if (orientation == 'vertical') {
-
+    } else {
+      for (let i = 0; i < shipLength; i++) {
+        setCell(origin, ship.receiveHit, 0, i);
+      }
     }
+
+    return true;
   };
+  
+  const validCoordinate = (coord) => {
+    let [col, row] = [...coord];
+    const colValidation = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+    const rowValidation = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+    if (!colValidation.includes(col)) throw new Error('Coordinate not in bounds.');
+    if (!rowValidation.includes(row)) throw new Error('Coordinate not in bounds.');
 
-  const clearPath = (origin, length) => {
-    // check if the area where we need to place the ship is clear
+    return true;
   }
-
   /**
    * A method to set the value of a given cell
    * @param {string} location - A1 through J10
@@ -108,7 +132,9 @@ const BoardBuilder = (owner) => {
     getCell,
     setCell,
     placeShip,
+    clearBoard,
     _getData,
+    _logState,
   };
 };
 

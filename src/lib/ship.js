@@ -6,8 +6,9 @@
  * @returns {Ship}
  */
 const ShipBuilder = (origin, length, horizontal = true) => {
-  const getAnchor = () => origin;
-  const getLength = () => length;
+  const getAnchor = () => { return origin };
+  const getLength = () => { return length };
+  const isHorizontal = () => { return horizontal };
 
   const buildData = () => {
     let result = {};
@@ -74,6 +75,7 @@ const ShipBuilder = (origin, length, horizontal = true) => {
   return { 
     getAnchor,
     getLength,
+    isHorizontal,
     isSunk,
     receiveHit,
     getHits,

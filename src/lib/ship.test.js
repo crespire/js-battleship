@@ -8,6 +8,7 @@ describe('when creating a ship', () => {
       expect(ship.getAnchor()).toBe('c2');
       expect(ship.getLength()).toBe(3);
       expect(ship.getCells()).toEqual(['c2', 'd2', 'e2']);
+      expect(ship.isHorizontal()).toEqual(true);
       expect(ship.getHits().every((slot) => { return slot === false })).toBeTruthy();
     });
   });
@@ -18,6 +19,7 @@ describe('when creating a ship', () => {
       expect(ship.getAnchor()).toBe('c2');
       expect(ship.getLength()).toBe(5);
       expect(ship.getCells()).toEqual(['c2', 'c3', 'c4', 'c5', 'c6']);
+      expect(ship.isHorizontal()).toBe(false);
       expect(ship.getHits().every((slot) => { return slot === false })).toBeTruthy();
     })
   })

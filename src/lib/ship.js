@@ -59,8 +59,16 @@ const ShipBuilder = (origin, length, horizontal = true) => {
    * Returns an array of hits to the ship.
    * @returns {array}
    */
-  const showHits = () => {
+  const getHits = () => {
     return Object.values(shipInfo);
+  }
+
+  /**
+   * Returns an array of cells the ship occupies.
+   * @returns {array}
+   */
+  const getCells = () => {
+    return Object.keys(shipInfo);
   }
 
   return { 
@@ -68,7 +76,8 @@ const ShipBuilder = (origin, length, horizontal = true) => {
     getLength,
     isSunk,
     receiveHit,
-    showHits,
+    getHits,
+    getCells,
   };
 };
 

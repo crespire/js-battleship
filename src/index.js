@@ -1,7 +1,13 @@
 import _ from 'lodash';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
+import App from './app.js';
 import { Battleship } from './lib/battleship.js';
 
 console.log('Loaded!');
-ReactDOM.render(<h1>Hello world!</h1>, document.getElementById('app'))
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);

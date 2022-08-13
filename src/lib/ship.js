@@ -1,8 +1,11 @@
+import _ from "lodash";
+
 /**
  * Represents a ship in the game Battleship.
  * @param {string} origin - The origin point of a ship.
- * @param {*} length - How many cells long a ship is, defaults to 1.
+ * @param {*} length - How many cells long a ship is, defaults to 2.
  * @param {bool} horizontal - Horizontal? Defaults to true.
+ * @throws Will throw error unless ship is at least 2 cells long.
  * @returns {Ship}
  */
 const ShipBuilder = (origin, length = 2, horizontal = true) => {
@@ -17,7 +20,7 @@ const ShipBuilder = (origin, length = 2, horizontal = true) => {
    * @access private
    */
   const buildData = () => {
-    if (length < 2) throw new Error('Ship must be at least 2 cell long');
+    if (length < 2) throw new Error('Ship must be at least 2 cells long.');
 
     let result = {};
 

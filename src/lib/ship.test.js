@@ -1,17 +1,16 @@
 import { ShipBuilder } from './ship';
 
-
 describe('when creating a ship', () => {
   test('correctly throws an error when provided a negative length', () => {
     expect(() => {
       ShipBuilder('c1', -1)
-    }).toThrow('must be at least 2 cell long');
+    }).toThrow('must be at least 2 cells long');
   });
 
   test('correctly throws an error when provided a single cell length', () => {
     expect(() => {
       ShipBuilder('c1', 1)
-    }).toThrow('must be at least 2 cell long');
+    }).toThrow('must be at least 2 cells long');
   });
 
   describe('when creating a horizontally oriented ship', () => {

@@ -46,14 +46,9 @@ describe('after creating a board', () => {
         expect(board.getCell('b2')).toBe('g');
       });
 
-      test('it correctly throws error with out of bound offsets', () => {
-        expect(() => {
-          board.setCell('j10', 'q', 1, 0);
-        }).toThrow('Offset out of bounds');
-
-        expect(() => {
-          board.setCell('a1', 'q', 1, 99);
-        }).toThrow('Offset out of bounds');
+      test('it correctly returns false with out of bound offsets', () => {
+        expect(board.setCell('j10', 'q', 1, 0)).toBeFalsy();
+        expect(board.setCell('a1', 'q', 1, 99)).toBeFalsy();
       });
     });
   });
@@ -77,18 +72,16 @@ describe('after creating a board', () => {
 
     test('it correctly throws an error when a ship is out of bounds', () => {
       let ship = ShipBuilder('j10', 2, true);
-      expect(() => {
-        board.placeShip(ship);
-      }).toThrow('not in bounds');
+      expect(board.placeShip(ship)).toBeFalsy();
+      expect(board.getCell('j10')).toBe(0);
     });
 
     test('it correctly throws error when there is an overlap', () => {
       let ship_1 = ShipBuilder('a1', 3, true);
-      let ship_2 = ShipBuilder('c1', 1, true);
+      let ship_2 = ShipBuilder('c1', 2, true);
       board.placeShip(ship_1);
-      expect(() => {
-        board.placeShip(ship_2);
-      }).toThrow('Already occupied');
+      expect(board.placeShip(ship_2)).toBeFalsy();
+      expect(board.getCell('c2')).toBe(0);
     })
   });
 
@@ -130,7 +123,7 @@ describe('after creating a board', () => {
     });
 
     test('when provided a board with two ships', () => {
-      let ship_1 = ShipBuilder('a1', 1, true);
+      let ship_1 = ShipBuilder('a1', 2, true);
       let ship_2 = ShipBuilder('a3', 2, false);
       board.placeShip(ship_1);
       board.placeShip(ship_2);
@@ -143,8 +136,9 @@ describe('after creating a board', () => {
       board.receiveAttack('j10');
       expect(board.allSunk()).toBe(false);
       board.receiveAttack('a1');
+      board.receiveAttack('b1');
       expect(board.allSunk()).toBe(true);
-      expect(board.getHits()).toBe(3);
+      expect(board.getHits()).toBe(4);
       expect(board.getMisses()).toBe(1);
     })
   });

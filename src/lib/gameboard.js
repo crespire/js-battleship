@@ -14,7 +14,14 @@ const BoardBuilder = (owner) => {
   }
 
   const _logState = () => {
-    console.log(boardData);
+    let jsonstring;
+    let string = '\n';
+    for (let row in boardData) {
+      jsonstring = JSON.stringify(boardData[row]).replaceAll('null', 'S');
+      string += jsonstring + '\n';
+    }
+    console.log(owner.name);
+    console.log(string);
     console.log(ships);
   }
 
@@ -35,8 +42,16 @@ const BoardBuilder = (owner) => {
    * @access public
    */
   const receiveAttack = (location) => {
-    validateCoordinate(location);
-    if (attackHistory.includes(location)) throw new Error('Already attacked:', location);
+    let valid = validateCoordinate(location);
+    if (!valid) { 
+      console.warn('Coordinate not valid', location);
+      return false;
+    }
+
+    if (attackHistory.includes(location)) { 
+      console.warn('Already attacked:', location);
+      return false;
+    }
 
     attackHistory.push(location);
     let data = getCell(location);
@@ -48,7 +63,8 @@ const BoardBuilder = (owner) => {
       data(location);
       setCell(location, 'x');
     } else {
-      throw new Error('Something went wrong, data is not expected', data);
+      console.warn('Something went wrong, data is not expected', data);
+      return false;
     }
 
     return true;
@@ -102,8 +118,12 @@ const BoardBuilder = (owner) => {
     let horizontal = ship.isHorizontal();
     let shipLength = ship.getLength();
     let cells = ship.getCells();
-    cells.every((coordinate) => validateCoordinate(coordinate));
-    cells.every((coordinate) => validateCellEmpty(coordinate));
+
+    let valid = cells.every((coordinate) => validateCoordinate(coordinate));
+    if (!valid) return false;
+
+    valid = cells.every((coordinate) => validateCellEmpty(coordinate));
+    if (!valid) return false;
 
     if (horizontal) {
       for (let i = 0; i < shipLength; i++) {
@@ -130,8 +150,15 @@ const BoardBuilder = (owner) => {
     let [col, row] = [...coord];
     const colValidation = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
     const rowValidation = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-    if (!colValidation.includes(col)) throw new Error('Coordinate not in bounds.');
-    if (!rowValidation.includes(row)) throw new Error('Coordinate not in bounds.');
+    if (!colValidation.includes(col)) {
+      console.warn('Out of bounds.');
+      return false;
+    }
+
+    if (!rowValidation.includes(row)) {
+      console.warn('Out of bounds.');
+      return false;
+    }
 
     return true;
   }
@@ -145,7 +172,10 @@ const BoardBuilder = (owner) => {
    */
   const validateCellEmpty = (coord) => {
     let target = getCell(coord);
-    if (typeof target == 'function') throw new Error('Already occupied at', coord);
+    if (typeof target == 'function') {
+      console.warn('Already occupied at', coord);
+      return false;
+    }
 
     return true;
   }
@@ -164,8 +194,15 @@ const BoardBuilder = (owner) => {
     x += rowOffset;
     y += colOffset;
 
-    if (x > 9 || x < 0) throw new Error(`Offset out of bounds, x is ${x}`);
-    if (y > 9 || y < 0) throw new Error(`Offset out of bounds, y is ${y}`);
+    if (x > 9 || x < 0) {
+      console.warn(`Offset out of bounds, x is ${x}`);
+      return false;
+    }
+
+    if (y > 9 || y < 0) {
+      console.warn(`Offset out of bounds, y is ${y}`);
+      return false;
+    }
 
     boardData[x][y] = value;
     return true;
@@ -206,8 +243,15 @@ const BoardBuilder = (owner) => {
     const regexLetter = /\b[A-Ja-j]\b/; // matches single character in range only
 
     let [col, row] = [...location];
-    if (!col?.match(regexLetter)) throw new Error('Invalid column input.');
-    if (!row?.match(regexDigit)) throw new Error('Invalid row input.');
+    if (!col?.match(regexLetter)) {
+      console.warn('Invalid column input.');
+      return [];
+    }
+
+    if (!row?.match(regexDigit)) {
+      console.warn('Invalid row input.');
+      return [];
+    } 
     
     let colIndex = colKey[col];
     let rowIndex = Number(row) - 1;

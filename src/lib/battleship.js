@@ -35,6 +35,14 @@ const Battleship = () => {
     let ship;
     let success = false;
 
+    /**
+     * 1 x ship with 5 length
+     * 1 x ship with 4 length
+     * 2 x ships with 3 length
+     * 1 x ship with 2 length
+     * 17 hits total to win
+     * 83 misses for full
+     */
     while(!success) { // Add one 3 length ship.
       ship = ShipBuilder(randomCell(), 3, (Math.random() < 0.5));
       success = board.placeShip(ship);

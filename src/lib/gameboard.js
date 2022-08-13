@@ -75,7 +75,7 @@ const BoardBuilder = (owner) => {
    * @returns {num}
    * @access public
    */
-  const getMisses = () => {
+  const getMisses = () => { // 83 misses for every 10x10 board.
     return boardData.flat().filter(element => element == 1).length
   }
 

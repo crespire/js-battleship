@@ -63,6 +63,10 @@ const Battleship = () => {
     return true;
   }
 
+  const renderBoard = () => {
+    // generate HTML representation of the board and return the parent of the grid
+  }
+
   const play = () => {
     let playerBoard = setupBoard(player);
     let computerBoard = setupBoard(computer);

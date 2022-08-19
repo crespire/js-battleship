@@ -102,11 +102,7 @@ const Battleship = () => {
             cell.classList.add('cell--hit');
             break;
           default:
-            if (showShips) {
-              cell.classList.add('cell--ship');
-            } else {
-              cell.classList.add('cell--empty');
-            }
+            showShips ? cell.classList.add('cell--ship') : cell.classList.add('cell--empty');
             break;
         }
         parentDiv.appendChild(cell);

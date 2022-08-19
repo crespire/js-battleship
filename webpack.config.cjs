@@ -13,7 +13,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Battleship',
-      template: 'src/index.html'
+      template: 'src/index.html',
+      inject: false,
     }),
   ],
    output: {

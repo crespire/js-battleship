@@ -29,13 +29,10 @@
     "webpack-dev-server": "^4.9.3"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "lodash": "^4.17.21"
   },
   "babel": {
     "presets": [
-      "@babel/preset-react",
       "@babel/preset-env"
     ]
   }

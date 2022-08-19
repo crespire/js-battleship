@@ -63,17 +63,73 @@ const Battleship = () => {
     return true;
   }
 
-  const renderBoard = () => {
+  const renderBoard = (board, showShips = true) => {
     // generate HTML representation of the board and return the parent of the grid
+    console.log('Rendering board...');
+    let parentDiv = document.createElement('div');
+    parentDiv.classList.add('playGrid');
+    let cell;
+    const colKey = {
+      0: 'a',
+      1: 'b',
+      2: 'c',
+      3: 'd',
+      4: 'e',
+      5: 'f',
+      6: 'g',
+      7: 'h',
+      8: 'i',
+      9: 'j',
+    }
+    let cellAddress;
+
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        cell = document.createElement('div');
+        cell.classList.add('cell');
+        cellAddress = `${colKey[i]}${j+1}`;
+        cell.dataset.index = `${i}${j}`;
+        cell.dataset.name = cellAddress;
+        console.log(`Getting ${cellAddress}`, board.getCell(cellAddress));
+        switch(board.getCell(cellAddress)) {
+          case 0:
+            cell.classList.add('cell--empty');
+            break;
+          case 1:
+            cell.classList.add('cell--miss');
+            break;
+          case 'x':
+            cell.classList.add('cell--hit');
+            break;
+          default:
+            if (showShips) {
+              cell.classList.add('cell--ship');
+            } else {
+              cell.classList.add('cell--empty');
+            }
+            break;
+        }
+        parentDiv.appendChild(cell);
+      }
+    }
+
+    return parentDiv;
   }
 
   const play = () => {
     let playerBoard = setupBoard(player);
     let computerBoard = setupBoard(computer);
+    console.log('Boards set up.');
 
+    let playerDisplay = renderBoard(playerBoard);
+    document.getElementById('root').appendChild(playerDisplay);
+
+    let computerDisplay = renderBoard(computerBoard, false);
+    document.getElementById('root').appendChild(computerDisplay);
+ 
     // Boards are set up, let's play the rounds!
     // Loop until either board reports allSunk or full.
-    
+
     return true;
   };
 

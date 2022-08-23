@@ -5,11 +5,22 @@
 }
 
 .cell {
-  outline: 1px solid lightgray;
+  outline: 1px dotted lightgray;
+  font-size: x-small;
   min-width: 1em;
   min-height: 1em;
 }
 
 .cell--ship {
   outline: 1px solid black;
+}
+
+.cell--miss {
+  background: lightpink;
+  outline: 1px solid lightgray;
+}
+
+.cell--hit {
+  background: red;
+  outline: 1px solid lightgray;
 }

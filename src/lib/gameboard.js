@@ -121,12 +121,10 @@ const BoardBuilder = (owner) => {
     let valid = false;
 
     valid = cells.every((coordinate) => validateCoordinate(coordinate));
-    console.log(`Passed valid coordinates check: ${valid}`)
     if (!valid) return false;
 
     valid = false;
     valid = cells.every((coordinate) => validateCellEmpty(coordinate));
-    console.log(`Passed empty cells check: ${valid}`);
     if (!valid) return false;
 
     if (horizontal) {

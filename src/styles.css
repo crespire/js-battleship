@@ -17,12 +17,12 @@
 
 .cell--miss {
   background: lightpink;
-  outline: 1px solid lightgray;
+  outline: 1px dotted lightgray;
 }
 
 .cell--hit {
   background: red;
-  outline: 1px solid lightgray;
+  outline: 1px solid black;
 }
 
 #root {

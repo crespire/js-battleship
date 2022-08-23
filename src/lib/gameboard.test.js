@@ -76,6 +76,12 @@ describe('after creating a board', () => {
       expect(board.getCell('j10')).toBe(0);
     });
 
+    test('it correctly warns when a ship is out of bounds', () => {
+      let ship = ShipBuilder('j10', 5, false);
+      expect(board.placeShip(ship)).toBeFalsy();
+      expect(board.getCell('j10')).toBe(0);
+    });
+
     test('it correctly throws error when there is an overlap', () => {
       let ship_1 = ShipBuilder('a1', 3, true);
       let ship_2 = ShipBuilder('c1', 2, true);

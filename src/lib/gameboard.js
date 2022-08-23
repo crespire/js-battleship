@@ -118,11 +118,15 @@ const BoardBuilder = (owner) => {
     let horizontal = ship.isHorizontal();
     let shipLength = ship.getLength();
     let cells = ship.getCells();
+    let valid = false;
 
-    let valid = cells.every((coordinate) => validateCoordinate(coordinate));
+    valid = cells.every((coordinate) => validateCoordinate(coordinate));
+    console.log(`Passed valid coordinates check: ${valid}`)
     if (!valid) return false;
 
+    valid = false;
     valid = cells.every((coordinate) => validateCellEmpty(coordinate));
+    console.log(`Passed empty cells check: ${valid}`);
     if (!valid) return false;
 
     if (horizontal) {
@@ -147,7 +151,7 @@ const BoardBuilder = (owner) => {
    * @access public
    */
   const validateCoordinate = (coord) => {
-    let [col, row] = [...coord];
+    let [col, row] = coord.split(/(\d{1,2})/, 2);
     const colValidation = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
     const rowValidation = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
     if (!colValidation.includes(col)) {

@@ -24,3 +24,9 @@
   background: red;
   outline: 1px solid lightgray;
 }
+
+#root {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}

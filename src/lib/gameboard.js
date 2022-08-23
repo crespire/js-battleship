@@ -22,7 +22,7 @@ const BoardBuilder = (owner) => {
     }
     console.log(owner.name);
     console.log(string);
-    console.log(ships);
+    console.table(ships);
   }
 
   /**
@@ -244,7 +244,7 @@ const BoardBuilder = (owner) => {
     const regexDigit = /\b([1-9]|10)\b/; // matches '1' through '10' only
     const regexLetter = /\b[A-Ja-j]\b/; // matches single character in range only
 
-    let [col, row] = [...location];
+    let [col, row] = location.split(/(\d{1,2})/, 2);
     if (!col?.match(regexLetter)) {
       console.warn('Invalid column input.');
       return [];
@@ -261,10 +261,22 @@ const BoardBuilder = (owner) => {
     return [rowIndex, colIndex];
   };
 
+  const randomCell = () => {
+    let cols = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+    let rows = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+    let colPick = Math.floor(Math.random() * 10);
+    let rowPick = Math.floor(Math.random() * 10);
+    let result = `${cols[colPick]}${rows[rowPick]}`;
+
+    return result;
+  }
+
   return {
     receiveAttack,
     getCell,
     setCell,
+    randomCell,
     getMisses,
     getHits,
     placeShip,

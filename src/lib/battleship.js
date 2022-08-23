@@ -33,6 +33,8 @@ const Battleship = () => {
 
     let shipLength = 5;
     let ship;
+    let anchor;
+    let horizontal;
     let success = false;
 
     /**
@@ -44,13 +46,18 @@ const Battleship = () => {
      * 83 misses for full
      */
     while(!success) { // Add one 3 length ship.
-      ship = ShipBuilder(randomCell(), 3, (Math.random() < 0.5));
+      anchor = randomCell();
+      horizontal = Math.random() < 0.5;
+      ship = ShipBuilder(anchor, 3, horizontal);
       success = board.placeShip(ship);
     }
 
+    success = false;
     while(shipLength > 1) { // Add the rest.
-      ship = ShipBuilder(randomCell(), shipLength, (Math.random() < 0.5));
-      success = board.placeShip(ship);    
+      anchor = randomCell();
+      horizontal = Math.random() < 0.5;
+      ship = ShipBuilder(anchor, shipLength, horizontal);
+      success = board.placeShip(ship);
       if (success) { shipLength--; }
     }
 
@@ -87,10 +94,9 @@ const Battleship = () => {
       for (let j = 0; j < 10; j++) {
         cell = document.createElement('div');
         cell.classList.add('cell');
-        cellAddress = `${colKey[i]}${j+1}`;
+        cellAddress = `${colKey[j]}${i+1}`;
         cell.dataset.index = `${i}${j}`;
         cell.dataset.name = cellAddress;
-        console.log(`Getting ${cellAddress}`, board.getCell(cellAddress));
         switch(board.getCell(cellAddress)) {
           case 0:
             cell.classList.add('cell--empty');

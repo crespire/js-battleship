@@ -9,3 +9,7 @@
   min-width: 1em;
   min-height: 1em;
 }
+
+.cell--ship {
+  outline: 1px solid black;
+}

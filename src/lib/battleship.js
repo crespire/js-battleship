@@ -97,28 +97,62 @@ const Battleship = () => {
   }
 
   const play = () => {
+    function playRound(event) {
+      if(!event.target.classList.contains('cell')) { return; }
 
-    function clickHandler(event) {
-      console.log(event.target);
+      let playerMovesHistory = computerBoard.getAttackHistory();
+      let computerMovesHistory = playerBoard.getAttackHistory();
+      let computerMove = playerBoard.randomCell();
+
+      if (playerMovesHistory.includes(event.target.dataset.name)) {
+        console.warn('Try again, already attacked', event.target.dataset.name);
+        return;
+      }
+
+      computerBoard.receiveAttack(event.target.dataset.name);
+
+      while(computerMovesHistory.includes(computerMove)) {
+        computerMove = playerBoard.randomCell();
+      }
+
+      playerBoard.receiveAttack(computerMove);
+
+      let newPlayerDisplay = renderBoard(playerBoard);
+      let newComputerDisplay = renderBoard(computerBoard, false);
+      playerContainer.replaceChild(newPlayerDisplay, playerDisplay);
+      computerContainer.replaceChild(newComputerDisplay, computerDisplay);
+      playerDisplay = newPlayerDisplay;
+      computerDisplay = newComputerDisplay;
+
+      if (playerBoard.allSunk() || computerBoard.allSunk()) {
+        let winner = playerBoard.allSunk() ? 'Computer' : 'Player';
+        alert(`${winner} won! Refresh to play again!`);
+      }
     }
 
     let playerBoard = setupBoard(player);
-    console.log(playerBoard._logState());
     let computerBoard = setupBoard(computer);
     const root = document.getElementById('root');
-    console.log('Boards set up.');
 
     let playerDisplay = renderBoard(playerBoard);
-    root.appendChild(playerDisplay);
-    root.appendChild(document.createElement('br'));
+    let title = document.createElement('span');
+    let playerContainer = document.createElement('div');
+    playerContainer.id = 'player-container';
+    title.innerText = "Player's Board";
+    playerContainer.appendChild(title);
+    playerContainer.appendChild(playerDisplay);
+    root.appendChild(playerContainer);
 
     let computerDisplay = renderBoard(computerBoard, false);
-    root.appendChild(computerDisplay);
+    let computerContainer = document.createElement('div');
+    computerContainer.id = 'computer-container';
+    title = document.createElement('span');
+    title.innerText = "Computer's Board";
+    computerContainer.appendChild(title);
+    computerContainer.appendChild(computerDisplay);
+    root.appendChild(computerContainer);
  
-    // Boards are set up, set up event handler for player input.
-    computerDisplay.addEventListener('click', clickHandler);
-
-    // Loop until either board reports allSunk or full.
+    computerContainer.addEventListener('click', playRound);
 
     return true;
   };

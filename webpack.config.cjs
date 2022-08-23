@@ -25,13 +25,20 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
    optimization: {
     runtimeChunk: 'single',
   },
-  module: { // babel loader
+  module: {
     rules: [
-      {
+      { // babel loader
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: ['babel-loader'],
       },
+      { // css loader
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
+      }
     ],
   },
   resolve: {

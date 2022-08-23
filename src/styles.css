@@ -1,0 +1,11 @@
+.playGrid {
+  display: grid;
+  grid-template-columns: repeat(10, 1em);
+  grid-template-rows: repeat(10, 1em);
+}
+
+.cell {
+  outline: 1px solid lightgray;
+  min-width: 1em;
+  min-height: 1em;
+}

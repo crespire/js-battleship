@@ -113,17 +113,26 @@ const Battleship = () => {
   }
 
   const play = () => {
+
+    function clickHandler(event) {
+      console.log(event.target);
+    }
+
     let playerBoard = setupBoard(player);
     let computerBoard = setupBoard(computer);
+    const root = document.getElementById('root');
     console.log('Boards set up.');
 
     let playerDisplay = renderBoard(playerBoard);
-    document.getElementById('root').appendChild(playerDisplay);
+    root.appendChild(playerDisplay);
+    root.appendChild(document.createElement('br'));
 
     let computerDisplay = renderBoard(computerBoard, false);
-    document.getElementById('root').appendChild(computerDisplay);
+    root.appendChild(computerDisplay);
  
-    // Boards are set up, let's play the rounds!
+    // Boards are set up, set up event handler for player input.
+    computerDisplay.addEventListener('click', clickHandler);
+
     // Loop until either board reports allSunk or full.
 
     return true;

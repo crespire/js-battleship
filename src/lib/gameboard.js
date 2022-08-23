@@ -8,32 +8,6 @@ const BoardBuilder = (owner) => {
   let boardData = Array.from(Array(10).fill(0), () => new Array(10).fill(0));
   let ships = [];
   let attackHistory = [];
-  
-  const _getData = () => {
-    return boardData;
-  }
-
-  const _logState = () => {
-    let jsonstring;
-    let string = '\n';
-    for (let row in boardData) {
-      jsonstring = JSON.stringify(boardData[row]).replaceAll('null', 'S');
-      string += jsonstring + '\n';
-    }
-    console.log(owner.name);
-    console.log(string);
-    console.table(ships);
-  }
-
-  /**
-   * Resets the board.
-   * @returns {true} after completion.
-   * @access public
-   */
-  const clearBoard = () => {
-    boardData = Array.from(Array(10).fill(0), () => new Array(10).fill(0));
-    return true;
-  }
 
   /**
    * Takes a location and updates the board data based on what was there.
@@ -42,14 +16,14 @@ const BoardBuilder = (owner) => {
    * @access public
    */
   const receiveAttack = (location) => {
-    let valid = validateCoordinate(location);
-    if (!valid) { 
-      console.warn('Coordinate not valid', location);
+    if (attackHistory.includes(location)) { 
+      console.warn('Already attacked:', location);
       return false;
     }
 
-    if (attackHistory.includes(location)) { 
-      console.warn('Already attacked:', location);
+    let valid = validateCoordinate(location);
+    if (!valid) { 
+      console.warn('Coordinate not valid', location);
       return false;
     }
 
@@ -63,29 +37,15 @@ const BoardBuilder = (owner) => {
       data(location);
       setCell(location, 'x');
     } else {
-      console.warn('Something went wrong, data is not expected', data);
+      console.warn('Something went wrong, data is not expected:', data);
       return false;
     }
 
     return true;
   };
 
-  /**
-   * Returns the amount of misses recorded on the board.
-   * @returns {num}
-   * @access public
-   */
-  const getMisses = () => { // 83 misses for every 10x10 board.
-    return boardData.flat().filter(element => element == 1).length
-  }
-
-  /**
-   * Returns the amount of hits recorded on the board.
-   * @returns {num}
-   * @access public
-   */
-  const getHits = () => {
-    return boardData.flat().filter(element => element == 'x').length
+  const getAttackHistory = () => {
+    return attackHistory;
   }
 
   /**
@@ -95,15 +55,6 @@ const BoardBuilder = (owner) => {
    */
   const allSunk = () => {
     return ships.every((ship) => { return ship.isSunk() });
-  }
-  
-  /**
-   * Returns an array of all ship objects
-   * @returns {array}
-   * @access public
-   */
-  const allShips = () => {
-    return ships;
   }
 
   /**
@@ -153,12 +104,12 @@ const BoardBuilder = (owner) => {
     const colValidation = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
     const rowValidation = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
     if (!colValidation.includes(col)) {
-      console.warn('Out of bounds.');
+      console.warn('Column out of bounds.');
       return false;
     }
 
     if (!rowValidation.includes(row)) {
-      console.warn('Out of bounds.');
+      console.warn('Row out of bounds.');
       return false;
     }
 
@@ -277,14 +228,9 @@ const BoardBuilder = (owner) => {
     getCell,
     setCell,
     randomCell,
-    getMisses,
-    getHits,
+    getAttackHistory,
     placeShip,
-    clearBoard,
     allSunk,
-    allShips,
-    _getData,
-    _logState,
   };
 };
 

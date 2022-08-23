@@ -1,6 +1,6 @@
 # Battleship
 
-An implementation of Battleship using Javascript for 2 players.
+An implementation of Battleship using Javascript for 1 player and a computer.
 
 This project is an opportunity for to:
 * Get comfortable with Javascript objects

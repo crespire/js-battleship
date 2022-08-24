@@ -15,7 +15,7 @@ describe('when creating a gameboard', () => {
 
 describe('after creating a board', () => {
   const mockPlayer = jest.fn();
-  const board = BoardBuilder(mockPlayer);
+  let board = BoardBuilder(mockPlayer);
 
   describe('when sending #setCell', () => {
     test('it correctly sets a1 to the given value', () => {
@@ -54,8 +54,8 @@ describe('after creating a board', () => {
   });
 
   describe('when sending #placeShip', () => {
-    afterEach(() => {
-      board.clearBoard();
+    beforeEach(() => {
+      board = BoardBuilder(mockPlayer);
     });    
 
     test('it correctly places a ship with horizontal length 2', () => {
@@ -99,21 +99,21 @@ describe('after creating a board', () => {
       board.placeShip(ship_1);
       board.receiveAttack('i3');
       expect(board.getCell('i3')).toBe('x');
-      expect(board.getHits()).toBe(1);
+      expect(board.getAttackHistory().length).toBe(1);
     });
 
     test('it correctly updates the board representation on a miss', () => {
       board.receiveAttack('a1');
       expect(board.getCell('a1')).toBe(1);
-      expect(board.getMisses()).toBe(1)
+      expect(board.getAttackHistory().length).toBe(2);
     });
   });
 
   describe('when sending #allSunk', () => {
-    const board = BoardBuilder(mockPlayer);
+    let board = BoardBuilder(mockPlayer);
 
-    afterEach(() => {
-      board.clearBoard();
+    beforeEach(() => {
+      board = BoardBuilder(mockPlayer);
     })
 
     test('when provided only 1 ship that is sunk', () => {
@@ -125,7 +125,7 @@ describe('after creating a board', () => {
       board.receiveAttack('f3');
       expect(ship_1.isSunk()).toBe(true);
       expect(board.allSunk()).toBe(true);
-      expect(board.getHits()).toBe(4);
+      expect(board.getAttackHistory().length).toBe(4);
     });
 
     test('when provided a board with two ships', () => {
@@ -138,14 +138,13 @@ describe('after creating a board', () => {
       board.receiveAttack('a4');
       expect(ship_2.isSunk()).toBe(true);
       expect(board.allSunk()).toBe(false);
-      expect(board.getHits()).toBe(2);
+      expect(board.getAttackHistory().length).toBe(2);
       board.receiveAttack('j10');
       expect(board.allSunk()).toBe(false);
       board.receiveAttack('a1');
       board.receiveAttack('b1');
       expect(board.allSunk()).toBe(true);
-      expect(board.getHits()).toBe(4);
-      expect(board.getMisses()).toBe(1);
+      expect(board.getAttackHistory().length).toBe(5);
     })
   });
 });

@@ -28,14 +28,14 @@ const BoardBuilder = (owner) => {
     }
 
     attackHistory.push(location);
-    let shipCallback = getCell(location);
-    if ( data == 0 ) {
+    let cellContents = getCell(location);
+    if ( cellContents == 0 ) {
       setCell(location, 1)
-    } else if ( typeof data == 'function') {
-      shipCallback(location);
+    } else if ( typeof cellContents == 'function') {
+      cellContents(location); // Cell content is a a callback function
       setCell(location, 'x');
     } else {
-      console.warn('Something went wrong, data is not expected:', data);
+      console.warn('Something went wrong, data is not expected:', cellContents);
       return false;
     }
 

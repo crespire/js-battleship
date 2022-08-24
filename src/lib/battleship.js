@@ -4,7 +4,7 @@ import { PlayerBuilder } from './player.js';
 
 const Battleship = () => {
   const getPlayerInfo = () => {
-    let name = 'Test';
+    let name = 'Player';
     return PlayerBuilder(name);
   }
 
@@ -50,7 +50,6 @@ const Battleship = () => {
 
   const renderBoard = (board, showShips = true) => {
     // generate HTML representation of the board and return the parent of the grid
-    console.log('Rendering board...');
     let parentDiv = document.createElement('div');
     parentDiv.classList.add('playGrid');
     let cell;

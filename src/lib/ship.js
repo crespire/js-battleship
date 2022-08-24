@@ -87,7 +87,6 @@ const ShipBuilder = (origin, length = 2, horizontal = true) => {
    */
   const receiveHit = (coord) => {
     shipInfo[coord] = true;
-    console.log(`Received hit at ${coord}, ship status updated:`, shipInfo);
   }
 
   return { 

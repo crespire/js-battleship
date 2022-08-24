@@ -28,13 +28,11 @@ const BoardBuilder = (owner) => {
     }
 
     attackHistory.push(location);
-    let data = getCell(location);
+    let shipCallback = getCell(location);
     if ( data == 0 ) {
-      console.log('Miss:', location);
       setCell(location, 1)
     } else if ( typeof data == 'function') {
-      console.log('Hit:', location)
-      data(location);
+      shipCallback(location);
       setCell(location, 'x');
     } else {
       console.warn('Something went wrong, data is not expected:', data);

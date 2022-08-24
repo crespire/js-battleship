@@ -107,6 +107,18 @@ describe('after creating a board', () => {
       expect(board.getCell('a1')).toBe(1);
       expect(board.getAttackHistory().length).toBe(2);
     });
+
+    test('it correctly warns and exits when sending out of bounds attack', () => {
+      expect(board.getAttackHistory().length).toBe(2);
+      expect(board.receiveAttack('z11')).toBeFalsy;
+      expect(board.getAttackHistory().length).toBe(2);
+    })
+
+    test('it correctly warns and exits when sending a duplicate attack', () => {
+      expect(board.getAttackHistory().length).toBe(2);
+      expect(board.receiveAttack('a1')).toBeFalsy;
+      expect(board.getAttackHistory().length).toBe(2);
+    })
   });
 
   describe('when sending #allSunk', () => {

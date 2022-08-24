@@ -27,7 +27,6 @@ const BoardBuilder = (owner) => {
       return false;
     }
 
-    attackHistory.push(location);
     let cellContents = getCell(location);
     if ( cellContents == 0 ) {
       setCell(location, 1)
@@ -38,6 +37,7 @@ const BoardBuilder = (owner) => {
       console.warn('Something went wrong, data is not expected:', cellContents);
       return false;
     }
+    attackHistory.push(location);
 
     return true;
   };

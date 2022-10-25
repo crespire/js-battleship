@@ -14,7 +14,7 @@ I've completed the Javascript objects for the Ship and Gameboard, which I think 
 For the future self trying to update the deploy. I just spent a good 30min trying to figure this out after not touching the project for a while...
 
 **This gh-pages deploy uses a subtree.** To update the gh-pages deploy:
-1. Delete the pages-deploy branch (local and remote)
+1. Delete the `pages-deploy` branch (local and remote)
 1. Rebuild the project (`npm run build` on `main`)
 1. Re-push via subtree to remote: `git subtree push --prefix dist origin pages-deploy`
 1. Update repository's github page deploy info to pull from the new branch.

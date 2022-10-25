@@ -1,33 +1,42 @@
 .playGrid {
   display: grid;
-  grid-template-columns: repeat(10, 1em);
-  grid-template-rows: repeat(10, 1em);
+  grid-template-columns: repeat(10, 2.5em);
+  grid-template-rows: repeat(10, 2.5em);
 }
 
 .cell {
-  outline: 1px dotted lightgray;
+  outline: 2px dotted lightgray;
   font-size: x-small;
   min-width: 1em;
   min-height: 1em;
 }
 
 .cell--ship {
-  outline: 1px solid black;
+  outline: 2px solid black;
 }
 
 .cell--miss {
   background: lightpink;
-  outline: 1px dotted lightgray;
+  outline: 2px dotted lightgray;
 }
 
 .cell--hit {
   background: red;
-  outline: 1px solid black;
+  outline: 2px solid black;
 }
 
 #root {
   height: 100vh;
+  width: 100%;
   display: flex;
+  flex-grow: 1;
   align-items: center;
   justify-content: space-evenly;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
 }
